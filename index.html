@@ -61,10 +61,88 @@
     background:var(--off-white);transition:width .3s ease;
   }
   .nav-links a:hover::after{width:100%;}
-  @media(max-width:768px){
-    .nav-links{display:none;}
-    nav{justify-content:center;}
+
+  /* -------- HAMBURGER -------- */
+  .hamburger{
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    gap:5px;
+    width:36px;height:36px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    z-index:200;
+    padding:0;
   }
+  .hamburger span{
+    display:block;
+    width:24px;height:2px;
+    background:var(--off-white);
+    transition:all .3s ease;
+  }
+  .hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .hamburger.active span:nth-child(2){opacity:0;}
+  .hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+  /* -------- SIDE DRAWER -------- */
+  .side-drawer{
+    position:fixed;
+    top:0;right:0;
+    width:78%;
+    max-width:320px;
+    height:100vh;
+    background:var(--black-2);
+    border-left:1px solid #232323;
+    z-index:300;
+    display:flex;
+    flex-direction:column;
+    padding:80px 34px 40px;
+    transform:translateX(100%);
+    transition:transform .45s cubic-bezier(.2,.9,.25,1);
+  }
+  .side-drawer.open{transform:translateX(0);}
+  .drawer-close{
+    position:absolute;
+    top:24px;right:24px;
+    background:none;border:none;
+    color:var(--off-white);
+    font-size:20px;
+    cursor:pointer;
+    width:36px;height:36px;
+  }
+  .drawer-links{list-style:none;display:flex;flex-direction:column;gap:26px;}
+  .drawer-links a{
+    color:var(--off-white);
+    text-decoration:none;
+    font-family:'Arial Black', sans-serif;
+    font-size:22px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    transition:color .3s;
+  }
+  .drawer-links a:hover{color:var(--red);}
+  .drawer-social{
+    margin-top:auto;
+    display:flex;
+    gap:22px;
+  }
+  .drawer-social a{
+    color:var(--gray);
+    text-decoration:none;
+    font-size:11px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+  }
+  .drawer-overlay{
+    position:fixed;inset:0;
+    background:rgba(0,0,0,0.6);
+    z-index:250;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .4s ease;
+  }
+  .drawer-overlay.open{opacity:1;pointer-events:auto;}
 
   /* -------- HERO -------- */
   .hero{
@@ -298,17 +376,26 @@
     background:linear-gradient(160deg, #1a1a1a, #050505);
     border:1px solid #232323;
   }
+  .about-visual img{
+    position:absolute;inset:0;
+    width:100%;height:100%;
+    object-fit:cover;
+    object-position:center 20%;
+  }
   .about-visual::before{
     content:'';
     position:absolute;inset:0;
     background:
-      repeating-linear-gradient(115deg, transparent, transparent 40px, rgba(193,39,45,0.06) 40px, rgba(193,39,45,0.06) 41px);
+      linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.15) 55%, rgba(0,0,0,0.75) 100%),
+      repeating-linear-gradient(115deg, transparent, transparent 40px, rgba(193,39,45,0.05) 40px, rgba(193,39,45,0.05) 41px);
+    z-index:1;
   }
   .about-visual-label{
     position:absolute;bottom:22px;left:22px;
     font-family:'Arial Black', sans-serif;
     font-size:14px;text-transform:uppercase;letter-spacing:1px;
     color:var(--off-white);
+    z-index:2;
   }
   .about-visual-tag{
     position:absolute;top:22px;right:22px;
@@ -316,6 +403,7 @@
     color:var(--gray);
     border:1px solid #333;
     padding:6px 12px;
+    z-index:2;
     border-radius:20px;
   }
   .about-text p{
@@ -375,6 +463,8 @@
     background:linear-gradient(150deg,#1c1c1c,#0a0a0a);
     border:1px solid #1f1f1f;
     cursor:pointer;
+    display:block;
+    text-decoration:none;
   }
   .cell.tall{grid-row:span 2;}
   .cell::before{
@@ -471,6 +561,139 @@
   }
   .social-row a:hover{color:var(--off-white);border-color:var(--red);}
 
+  /* -------- CONNECT SECTION -------- */
+  .connect-section{
+    text-align:center;
+    background:
+      radial-gradient(circle at 50% 30%, rgba(193,39,45,0.07), transparent 65%),
+      var(--black-2);
+    border-top:1px solid #1f1f1f;
+    border-bottom:1px solid #1f1f1f;
+  }
+  .connect-inner{max-width:680px;margin:0 auto;}
+  .connect-inner .section-title{margin-bottom:44px;}
+
+  .connect-btn{
+    position:relative;
+    width:190px;height:190px;
+    border-radius:50%;
+    background:var(--black);
+    border:1px solid #2a2a2a;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto;
+    transition:transform .4s cubic-bezier(.2,.9,.25,1), border-color .4s ease, background .4s ease;
+  }
+  .connect-btn:hover{transform:scale(1.04);border-color:var(--red);}
+  .connect-btn.open{
+    background:var(--red);
+    border-color:var(--red);
+    transform:scale(0.88);
+  }
+  .connect-ring{
+    position:absolute;inset:0;
+    border-radius:50%;
+    border:1px solid var(--red);
+    opacity:0;
+    animation:pulseRing 2.6s ease-out infinite;
+  }
+  .connect-ring.ring-2{animation-delay:1.3s;}
+  @keyframes pulseRing{
+    0%{transform:scale(1);opacity:0.5;}
+    100%{transform:scale(1.45);opacity:0;}
+  }
+  .connect-btn-inner{
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+    z-index:2;
+  }
+  .connect-btn-icon{
+    font-size:34px;
+    font-weight:300;
+    color:var(--off-white);
+    line-height:1;
+    transition:transform .4s cubic-bezier(.2,.9,.25,1);
+    display:inline-block;
+  }
+  .connect-btn.open .connect-btn-icon{transform:rotate(135deg);}
+  .connect-btn-text{
+    font-size:11px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--gray);
+    font-weight:700;
+  }
+  .connect-btn.open .connect-btn-text{color:#fff;}
+
+  .social-orbit{
+    margin-top:0;
+    max-height:0;
+    overflow:hidden;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:14px;
+    transition:max-height .6s cubic-bezier(.2,.9,.25,1), margin-top .6s cubic-bezier(.2,.9,.25,1);
+  }
+  .social-orbit.open{
+    max-height:600px;
+    margin-top:48px;
+  }
+  .social-chip{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 22px;
+    border:1px solid #2a2a2a;
+    border-radius:40px;
+    background:var(--black);
+    text-decoration:none;
+    color:var(--off-white);
+    opacity:0;
+    transform:translateY(18px) scale(0.85);
+    transition:border-color .3s ease, transform .3s ease, background .3s ease;
+  }
+  .social-orbit.open .social-chip{
+    animation:chipPop .5s cubic-bezier(.2,.9,.25,1) forwards;
+    animation-delay:calc(var(--i) * 0.09s);
+  }
+  @keyframes chipPop{
+    0%{opacity:0;transform:translateY(18px) scale(0.8);}
+    60%{opacity:1;transform:translateY(-4px) scale(1.04);}
+    100%{opacity:1;transform:translateY(0) scale(1);}
+  }
+  .social-chip:hover{
+    border-color:var(--red);
+    background:rgba(193,39,45,0.1);
+    transform:translateY(-3px) scale(1.02);
+  }
+  .chip-icon{
+    width:30px;height:30px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;
+    background:#1c1c1c;
+    flex-shrink:0;
+  }
+  .chip-instagram{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);}
+  .chip-youtube{background:#ff0000;}
+  .chip-tiktok{background:#000;border:1px solid #333;}
+  .chip-whatsapp{background:#25d366;}
+  .chip-snapchat{background:#fffc00;}
+  .chip-label{
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:0.3px;
+  }
+  .chip-arrow{
+    font-size:13px;
+    color:var(--gray);
+    margin-left:2px;
+    transition:transform .3s ease, color .3s ease;
+  }
+  .social-chip:hover .chip-arrow{transform:translate(2px,-2px);color:var(--red);}
+
   footer{
     text-align:center;
     padding:30px 5%;
@@ -480,22 +703,44 @@
     border-top:1px solid #1a1a1a;
   }
 
+  /* -------- NAV / MENU BREAKPOINT -------- */
+  @media(max-width:768px){
+    .nav-links{display:none;}
+    .hamburger{display:flex;}
+  }
+
   /* -------- MOBILE FIXES -------- */
   @media(max-width:600px){
     nav{padding:18px 6%;}
     .logo{font-size:15px;}
 
-    .hero{padding:100px 6% 40px;height:auto;min-height:100vh;justify-content:flex-start;padding-top:120px;}
-    .hero-eyebrow{font-size:10px;letter-spacing:3px;margin-bottom:14px;text-align:center;}
-    .hero-title{font-size:15vw;min-height:auto;line-height:1;}
-    .hero-sub{font-size:12px;letter-spacing:2px;margin-top:16px;text-align:center;padding:0 10px;}
+    .hero{
+      padding:110px 7% 40px;
+      height:auto;
+      min-height:100vh;
+      align-items:flex-start;
+      justify-content:flex-start;
+      text-align:left;
+    }
+    .hero-eyebrow{font-size:10px;letter-spacing:3px;margin-bottom:14px;text-align:left;}
+    .hero-title{
+      font-size:14vw;
+      min-height:auto;
+      line-height:1;
+      justify-content:flex-start;
+      width:100%;
+      white-space:nowrap;
+    }
+    .hero-sub{font-size:12px;letter-spacing:2px;margin-top:16px;text-align:left;padding:0;}
 
     .hero-stats{
       gap:22px;
       margin-top:32px;
       flex-wrap:wrap;
-      justify-content:center;
+      justify-content:flex-start;
+      width:100%;
     }
+    .stat{text-align:left;}
     .stat-num{font-size:22px;}
     .stat-label{font-size:9px;}
 
@@ -511,7 +756,7 @@
       padding:15px 20px;
     }
 
-    .scroll-hint{bottom:20px;}
+    .scroll-hint{bottom:20px;left:7%;transform:none;}
 
     .marquee span{font-size:16px;padding:0 16px;}
 
@@ -539,6 +784,12 @@
     .contact p{font-size:14px;padding:0 6px;}
     .contact-buttons{flex-direction:column;width:100%;gap:12px;}
     .social-row{flex-direction:column;gap:16px;margin-top:44px;}
+
+    .connect-btn{width:150px;height:150px;}
+    .connect-btn-icon{font-size:28px;}
+    .social-chip{padding:12px 18px;width:100%;justify-content:center;}
+    .social-orbit{gap:10px;}
+    .social-orbit.open{max-height:800px;}
   }
 
   @media(max-width:380px){
@@ -558,7 +809,25 @@
     <li><a href="#numbers">Numbers</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<div class="side-drawer" id="sideDrawer">
+  <button class="drawer-close" id="drawerClose" aria-label="Close menu">✕</button>
+  <ul class="drawer-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#numbers">Numbers</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="drawer-social">
+    <a href="#">Instagram</a>
+    <a href="#">YouTube</a>
+  </div>
+</div>
+<div class="drawer-overlay" id="drawerOverlay"></div>
 
 <section class="hero">
   <div class="grain"></div>
@@ -578,6 +847,7 @@
   <div class="scroll-hint"><div class="scroll-line"></div><span>Scroll</span></div>
 </section>
 
+
 <div class="marquee-wrap">
   <div class="marquee">
     <span>NO EXCUSES</span><span>GYM · GRIND · REPEAT</span><span>THE NANA</span><span>DISCIPLINE OVER MOTIVATION</span>
@@ -588,6 +858,7 @@
 <section id="about">
   <div class="about">
     <div class="about-visual reveal">
+      <img src="images/profile.jpg" alt="The Nana">
       <div class="about-visual-tag">Islamabad, PK</div>
       <div class="about-visual-label">The Nana — Creator</div>
     </div>
@@ -626,7 +897,7 @@
     <div class="cell tall"><div class="cell-label">Beach Walk</div><div class="cell-icon">▶</div></div>
     <div class="cell"><div class="cell-label">Leg Day</div><div class="cell-icon">▶</div></div>
     <div class="cell"><div class="cell-label">City Night</div><div class="cell-icon">▶</div></div>
-    <div class="cell tall"><div class="cell-label">Reel Drop</div><div class="cell-icon">▶</div></div>
+    <a href="https://www.instagram.com/reel/DZP5-09tE6R/" target="_blank" rel="noopener" class="cell tall"><div class="cell-label">Reel Drop</div><div class="cell-icon">▶</div></a>
     <div class="cell"><div class="cell-label">Post Workout</div><div class="cell-icon">▶</div></div>
     <div class="cell"><div class="cell-label">Road Trip</div><div class="cell-icon">▶</div></div>
   </div>
@@ -652,6 +923,50 @@
       <a href="#">Instagram</a>
       <a href="#">YouTube</a>
       <a href="#">WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<section class="connect-section">
+  <div class="connect-inner reveal">
+    <div class="section-eyebrow" style="text-align:center;">Find Me Online</div>
+    <h2 class="section-title" style="text-align:center;">Let's Connect</h2>
+
+    <button class="connect-btn" id="connectBtn">
+      <span class="connect-ring"></span>
+      <span class="connect-ring ring-2"></span>
+      <span class="connect-btn-inner">
+        <span class="connect-btn-icon" id="connectIcon">+</span>
+        <span class="connect-btn-text" id="connectText">Tap To Connect</span>
+      </span>
+    </button>
+
+    <div class="social-orbit" id="socialOrbit">
+      <a href="https://instagram.com/the.nana" target="_blank" rel="noopener" class="social-chip" style="--i:0">
+        <span class="chip-icon chip-instagram">📷</span>
+        <span class="chip-label">Instagram</span>
+        <span class="chip-arrow">↗</span>
+      </a>
+      <a href="https://youtube.com/@thenana" target="_blank" rel="noopener" class="social-chip" style="--i:1">
+        <span class="chip-icon chip-youtube">▶</span>
+        <span class="chip-label">YouTube</span>
+        <span class="chip-arrow">↗</span>
+      </a>
+      <a href="https://tiktok.com/@the.nana" target="_blank" rel="noopener" class="social-chip" style="--i:2">
+        <span class="chip-icon chip-tiktok">♪</span>
+        <span class="chip-label">TikTok</span>
+        <span class="chip-arrow">↗</span>
+      </a>
+      <a href="https://wa.me/00000000000" target="_blank" rel="noopener" class="social-chip" style="--i:3">
+        <span class="chip-icon chip-whatsapp">☎</span>
+        <span class="chip-label">WhatsApp</span>
+        <span class="chip-arrow">↗</span>
+      </a>
+      <a href="#" target="_blank" rel="noopener" class="social-chip" style="--i:4">
+        <span class="chip-icon chip-snapchat">👻</span>
+        <span class="chip-label">Snapchat</span>
+        <span class="chip-arrow">↗</span>
+      </a>
     </div>
   </div>
 </section>
@@ -745,6 +1060,47 @@
     glow.style.opacity = '1';
   });
   hero.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
+
+  // Side drawer menu toggle
+  const hamburger = document.getElementById('hamburger');
+  const sideDrawer = document.getElementById('sideDrawer');
+  const drawerOverlay = document.getElementById('drawerOverlay');
+  const drawerClose = document.getElementById('drawerClose');
+
+  function openDrawer(){
+    sideDrawer.classList.add('open');
+    drawerOverlay.classList.add('open');
+    hamburger.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer(){
+    sideDrawer.classList.remove('open');
+    drawerOverlay.classList.remove('open');
+    hamburger.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  hamburger.addEventListener('click', openDrawer);
+  drawerClose.addEventListener('click', closeDrawer);
+  drawerOverlay.addEventListener('click', closeDrawer);
+  document.querySelectorAll('.drawer-links a').forEach(a => {
+    a.addEventListener('click', closeDrawer);
+  });
+
+  // Connect button — reveals social chips with staggered animation
+  const connectBtn = document.getElementById('connectBtn');
+  const connectText = document.getElementById('connectText');
+  const socialOrbit = document.getElementById('socialOrbit');
+
+  connectBtn.addEventListener('click', () => {
+    const isOpen = socialOrbit.classList.toggle('open');
+    connectBtn.classList.toggle('open', isOpen);
+    connectText.textContent = isOpen ? 'Close' : 'Tap To Connect';
+    if(isOpen){
+      setTimeout(() => {
+        socialOrbit.scrollIntoView({behavior:'smooth', block:'center'});
+      }, 300);
+    }
+  });
 
   // Scroll reveal
   const revealEls = document.querySelectorAll('.reveal');
