@@ -467,6 +467,17 @@
     text-decoration:none;
   }
   .cell.tall{grid-row:span 2;}
+  .cell video{
+    position:absolute;inset:0;
+    width:100%;height:100%;
+    object-fit:cover;
+    z-index:0;
+  }
+  .cell.video-cell::before{
+    background:linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.1) 60%, rgba(0,0,0,0.65) 100%);
+    z-index:1;
+  }
+  .cell.video-cell:hover::before{transform:none;}
   .cell::before{
     content:'';
     position:absolute;inset:0;
@@ -891,14 +902,14 @@
     </div>
   </div>
   <div class="grid reveal">
-    <div class="cell tall"><div class="cell-label">Gym Session</div><div class="cell-icon">▶</div></div>
-    <div class="cell"><div class="cell-label">Sunset Drive</div><div class="cell-icon">▶</div></div>
+    <div class="cell tall video-cell"><video src="video1.mp4" autoplay muted loop playsinline></video><div class="cell-label">Gym Session</div><div class="cell-icon">▶</div></div>
+    <div class="cell video-cell"><video src="v2.mp4" autoplay muted loop playsinline></video><div class="cell-label">Sunset Drive</div><div class="cell-icon">▶</div></div>
     <div class="cell"><div class="cell-label">Portrait</div><div class="cell-icon">▶</div></div>
-    <div class="cell tall"><div class="cell-label">Beach Walk</div><div class="cell-icon">▶</div></div>
-    <div class="cell"><div class="cell-label">Leg Day</div><div class="cell-icon">▶</div></div>
-    <div class="cell"><div class="cell-label">City Night</div><div class="cell-icon">▶</div></div>
+    <div class="cell tall video-cell"><video src="v3.mp4" autoplay muted loop playsinline></video><div class="cell-label">Beach Walk</div><div class="cell-icon">▶</div></div>
+    <div class="cell video-cell"><video src="v4.mp4" autoplay muted loop playsinline></video><div class="cell-label">Leg Day</div><div class="cell-icon">▶</div></div>
+    <div class="cell video-cell"><video src="v5.mp4" autoplay muted loop playsinline></video><div class="cell-label">City Night</div><div class="cell-icon">▶</div></div>
     <a href="https://www.instagram.com/reel/DZP5-09tE6R/" target="_blank" rel="noopener" class="cell tall"><div class="cell-label">Reel Drop</div><div class="cell-icon">▶</div></a>
-    <div class="cell"><div class="cell-label">Post Workout</div><div class="cell-icon">▶</div></div>
+    <div class="cell video-cell"><video src="v6.mp4" autoplay muted loop playsinline></video><div class="cell-label">Post Workout</div><div class="cell-icon">▶</div></div>
     <div class="cell"><div class="cell-label">Road Trip</div><div class="cell-icon">▶</div></div>
   </div>
 </section>
@@ -1112,6 +1123,17 @@
     });
   }, {threshold:0.15});
   revealEls.forEach(el => observer.observe(el));
+
+  // Video cells — tap to toggle sound on/off
+  document.querySelectorAll('.video-cell').forEach(cell => {
+    const vid = cell.querySelector('video');
+    if(!vid) return;
+    cell.addEventListener('click', (e) => {
+      e.preventDefault();
+      vid.muted = !vid.muted;
+      if(!vid.muted){ vid.play(); }
+    });
+  });
 
   // Gallery tab switching (visual only)
   document.querySelectorAll('.tab').forEach(tab=>{
