@@ -61,7 +61,10 @@
     background:var(--off-white);transition:width .3s ease;
   }
   .nav-links a:hover::after{width:100%;}
-  @media(max-width:768px){.nav-links{display:none;}}
+  @media(max-width:768px){
+    .nav-links{display:none;}
+    nav{justify-content:center;}
+  }
 
   /* -------- HERO -------- */
   .hero{
@@ -475,6 +478,73 @@
     letter-spacing:1.5px;
     color:#444;
     border-top:1px solid #1a1a1a;
+  }
+
+  /* -------- MOBILE FIXES -------- */
+  @media(max-width:600px){
+    nav{padding:18px 6%;}
+    .logo{font-size:15px;}
+
+    .hero{padding:100px 6% 40px;height:auto;min-height:100vh;justify-content:flex-start;padding-top:120px;}
+    .hero-eyebrow{font-size:10px;letter-spacing:3px;margin-bottom:14px;text-align:center;}
+    .hero-title{font-size:15vw;min-height:auto;line-height:1;}
+    .hero-sub{font-size:12px;letter-spacing:2px;margin-top:16px;text-align:center;padding:0 10px;}
+
+    .hero-stats{
+      gap:22px;
+      margin-top:32px;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+    .stat-num{font-size:22px;}
+    .stat-label{font-size:9px;}
+
+    .hero-cta{
+      flex-direction:column;
+      width:100%;
+      gap:12px;
+      margin-top:34px;
+    }
+    .btn{
+      width:100%;
+      text-align:center;
+      padding:15px 20px;
+    }
+
+    .scroll-hint{bottom:20px;}
+
+    .marquee span{font-size:16px;padding:0 16px;}
+
+    section{padding:70px 6%;}
+    .section-head{margin-bottom:34px;flex-direction:column;align-items:flex-start;}
+    .section-title{font-size:32px;}
+
+    .about{gap:36px;}
+    .about-visual{aspect-ratio:16/10;}
+    .about-text p{font-size:15px;max-width:100%;}
+    .about-list{grid-template-columns:1fr 1fr;gap:16px;}
+
+    .gallery-tabs{gap:8px;}
+    .tab{padding:8px 16px;font-size:10px;}
+
+    .grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:120px;gap:4px;}
+    .cell-label{font-size:9px;bottom:8px;left:8px;}
+    .cell-icon{width:22px;height:22px;top:8px;right:8px;font-size:11px;}
+
+    .stats-band{grid-template-columns:1fr 1fr;gap:30px 16px;padding:50px 6%;}
+    .big-stat-num{font-size:30px;}
+    .big-stat-label{font-size:9px;}
+
+    .contact-title{font-size:38px;}
+    .contact p{font-size:14px;padding:0 6px;}
+    .contact-buttons{flex-direction:column;width:100%;gap:12px;}
+    .social-row{flex-direction:column;gap:16px;margin-top:44px;}
+  }
+
+  @media(max-width:380px){
+    .hero-stats{gap:16px;}
+    .grid{grid-template-columns:1fr;}
+    .about-list{grid-template-columns:1fr;}
   }
 </style>
 </head>
